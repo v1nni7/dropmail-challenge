@@ -1,27 +1,72 @@
-.display-generated-email {
-  .display-group {
-    .form-control {
-      width: 420px;
-      height: 40px;
-      padding: 0 .5rem;
-      box-shadow: none;
-      border: 1px solid #ccc;
-      
-      &:disabled {
-        background-color: #fff;
+.wrapper-page {
+  display: grid;
+  grid-template-areas:
+    "brand brand"
+    "email email";
+  grid-template-rows: 1fr 8fr;
+
+  .grid-area-brand {
+    grid-area: brand;
+  }
+
+  .grid-area-email {
+    display: grid;
+    grid-area: email;
+    grid-template-areas:
+      "generated-email generated-email"
+      "emails content";
+    grid-template-rows: 2fr 6fr;
+    grid-template-columns: 2fr 5fr;
+
+    .grid-area-generated-email {
+      grid-area: generated-email;
+
+      .generated-email {
+        width: 40%;
+
+        @media screen and (max-width: 768px) {
+          width: 100%;
+        }
       }
 
-      @media screen and (max-width: 768px) {
-        width: 100%;
+      .circular-refresh-progress {
+        width: 30px;
+        height: 30px;
+        margin-left: 10px;
       }
     }
 
-    .btn {
-      height: 40px;
+    .grid-area-emails {
+      grid-area: emails;
+
+      .list-group-item {
+        transition: .2s;
+
+        &:hover {
+          cursor: pointer;
+          background-color: #d6d6d6;
+        }
+      }
+    }
+
+    .grid-area-content {
+      grid-area: content;
+
+      .email-content {
+        height: 92%;
+
+        .bg-white {
+          height: 90%;
+        }
+      }
+    }
+
+    .area-divisor {
+      height: 8%;
     }
   }
 
-  .display-refresh-count {
-    
+  .bg-secondary {
+    background-color: #f5f5f5 !important;
   }
 }
