@@ -1,34 +1,60 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import './App.css'
+import { MdContentCopy } from "react-icons/md";
+import { IoReloadCircleOutline } from "react-icons/io5";
+import { CircularProgressbarWithChildren } from "react-circular-progressbar";
 
-function App() {
-  const [count, setCount] = useState(0)
+import "./index.scss";
 
+export default function App() {
   return (
-    <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </div>
-  )
-}
+    <div className="p-2">
+      <div className="bg-secondary mb-5 p-4 w-25"></div>
 
-export default App
+      <main className="border">
+        <div className="row">
+          <div className="col-12">
+            <div className="d-flex justify-content-center p-4">
+              <div className="display-generated-email">
+                <div className="display-group">
+                  <span className="mx-2 d-block">
+                    Your temporary email address
+                  </span>
+                  <div className="d-flex align-items-center input-group">
+                    <input
+                      type="text"
+                      className="form-control fw-bold text-secondary"
+                      value={"dysyky@ema-sofia.eu"}
+                      disabled
+                    />
+                    <button className="btn btn-secondary fw-semibold">
+                      <MdContentCopy className="fs-4" /> Copy
+                    </button>
+                  </div>
+                </div>
+                <div className="d-flex justify-content-center align-items-center">
+                  <div className="d-flex align-items-center py-3">
+                    <div className="d-flex align-items-center fw-semibold text-secondary">
+                      Autorefresh in{" "}
+                      <div
+                        className="d-block"
+                        style={{ width: 30, fontSize: ".75rem", marginLeft: 5 }}
+                      >
+                        <CircularProgressbarWithChildren value={50}>
+                          <span className="fw-bold">5</span>
+                        </CircularProgressbarWithChildren>
+                      </div>
+                    </div>
+                    <button className="btn btn-transparent text-secondary fw-semibold d-flex align-items-center p-2 mx-3">
+                      <IoReloadCircleOutline className="fs-2" /> Refresh
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="col-6"></div>
+          <div className="col-6"></div>
+        </div>
+      </main>
+    </div>
+  );
+}

@@ -1,0 +1,27 @@
+.display-generated-email {
+  .display-group {
+    .form-control {
+      width: 420px;
+      height: 40px;
+      padding: 0 .5rem;
+      box-shadow: none;
+      border: 1px solid #ccc;
+      
+      &:disabled {
+        background-color: #fff;
+      }
+
+      @media screen and (max-width: 768px) {
+        width: 100%;
+      }
+    }
+
+    .btn {
+      height: 40px;
+    }
+  }
+
+  .display-refresh-count {
+    
+  }
+}
