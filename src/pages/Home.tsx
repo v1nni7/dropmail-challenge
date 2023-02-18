@@ -1,8 +1,22 @@
 import { MdContentCopy } from "react-icons/md";
 import { IoReloadCircleOutline } from "react-icons/io5";
 import { CircularProgressbarWithChildren } from "react-circular-progressbar";
+import { useEffect, useState } from "react";
+import { getEmail } from "../services/api";
 
 export default function Home() {
+  const [email, setEmail] = useState("");
+
+  const getTempEmail = async () => {
+    const response = await getEmail();
+
+    console.log(response);
+  };
+
+  useEffect(() => {
+    getTempEmail();
+  }, [getTempEmail]);
+
   return (
     <div className="wrapper-page vh-100 p-2">
       <div className="grid-area-brand">
