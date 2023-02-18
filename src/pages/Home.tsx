@@ -2,26 +2,47 @@ import { MdContentCopy } from "react-icons/md";
 import { IoReloadCircleOutline } from "react-icons/io5";
 import { CircularProgressbarWithChildren } from "react-circular-progressbar";
 import { useEffect, useState } from "react";
-import { getEmail } from "../services/api";
+import { getEmail, getIncomingMail } from "../services/api";
 
 export default function Home() {
   const [email, setEmail] = useState("");
 
-  const getTempEmail = async () => {
+  const getEmailAddress = async () => {
     const response = await getEmail();
+
+    localStorage.setItem("user", JSON.stringify(response.data));
+  };
+
+  const getIncomingEmail = async () => {
+    const response = await getIncomingMail();
 
     console.log(response);
   };
 
   useEffect(() => {
-    getTempEmail();
-  }, [getTempEmail]);
+    const userStorage = JSON.parse(localStorage.getItem("user") as string);
+
+    if (!userStorage) {
+      return;
+    }
+
+    setEmail(userStorage.data.introduceSession.addresses[0].address);
+  }, []);
 
   return (
     <div className="wrapper-page vh-100 p-2">
       <div className="grid-area-brand">
         <div className="bg-secondary p-4 w-25 rounded"></div>
       </div>
+      <button onClick={() => getIncomingEmail()} className="btn btn-primary">
+        Get Incoming Mail
+      </button>
+      <button
+        onClick={() => getEmailAddress()}
+        className="btn btn-secondary mx-2"
+      >
+        Get Email Address
+      </button>
       <div className="grid-area-email border rounded">
         <div className="grid-area-generated-email border-bottom">
           <div className="d-flex justify-content-center align-items-center flex-column">
@@ -34,7 +55,7 @@ export default function Home() {
                   <input
                     type="text"
                     className="form-control fw-bold text-secondary"
-                    defaultValue={"dysyky@ema-sofia.eu"}
+                    defaultValue={email}
                   />
                   <button className="btn btn-secondary fw-semibold">
                     <MdContentCopy className="fs-5" /> Copy

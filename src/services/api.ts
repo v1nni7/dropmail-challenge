@@ -44,4 +44,26 @@ async function getEmail() {
   });
 }
 
-export { getEmail };
+async function getIncomingMail() {
+  const userId = JSON.parse(localStorage.getItem("user") as string).data
+    .introduceSession.id;
+
+  return await api.post("/", {
+    query: `
+      query {
+        session(id: "${userId}") {
+          mails {
+              rawSize,
+              fromAddr,
+              toAddr,
+              downloadUrl,
+              text,
+              headerSubject
+          }
+        }
+      }
+    `,
+  });
+}
+
+export { getEmail, getIncomingMail };
