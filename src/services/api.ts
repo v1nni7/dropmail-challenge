@@ -58,7 +58,8 @@ async function getIncomingMail() {
               toAddr,
               downloadUrl,
               text,
-              headerSubject
+              headerSubject,
+              headerFrom
           }
         }
       }

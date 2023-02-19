@@ -6,6 +6,8 @@ import { getEmail, getIncomingMail } from "../services/api";
 
 export default function Home() {
   const [email, setEmail] = useState("");
+  const [emailIndex, setEmailIndex] = useState<any>(0);
+  const [incomingEmail, setIncomingEmail] = useState<any>([]);
 
   const getEmailAddress = async () => {
     const response = await getEmail();
@@ -16,17 +18,26 @@ export default function Home() {
   const getIncomingEmail = async () => {
     const response = await getIncomingMail();
 
-    console.log(response);
+    localStorage.setItem("incomingEmail", JSON.stringify(response.data));
+    setIncomingEmail(response.data.data.session.mails);
   };
 
   useEffect(() => {
     const userStorage = JSON.parse(localStorage.getItem("user") as string);
+    const mailStorage = JSON.parse(
+      localStorage.getItem("incomingEmail") as string
+    );
 
     if (!userStorage) {
       return;
     }
-
     setEmail(userStorage.data.introduceSession.addresses[0].address);
+
+    if (!mailStorage) {
+      return;
+    }
+
+    setIncomingEmail(mailStorage.data.session.mails);
   }, []);
 
   return (
@@ -83,6 +94,21 @@ export default function Home() {
             <h4 className="m-0">Inbox</h4>
           </div>
           <ul className="list-group">
+            {incomingEmail.map((item: any, index: number) => (
+              <li
+                key={index}
+                className="list-group-item rounded-0 border-0 border-bottom px-1"
+              >
+                <h5 className="fw-bold m-0">
+                  {item.headerSubject.slice(0, 30)}
+                  {item.headerSubject.length > 30 && "..."}
+                </h5>
+                <h6 className="fw-bold text-primary m-0">
+                  {item.headerFrom.split(" ")[0]}
+                </h6>
+                <p className="text-secondary m-0">{item.text}</p>
+              </li>
+            ))}
             <li className="list-group-item rounded-0 border-0 border-bottom px-1">
               <h5 className="fw-bold m-0">Hello</h5>
               <h6 className="fw-bold text-primary m-0">Welcome</h6>
@@ -98,18 +124,7 @@ export default function Home() {
           <div className="px-2 bg-secondary email-content">
             <h4 className="fw-bold py-2 mb-0 mx-4">Welcome</h4>
             <div className="bg-white p-2 rounded border">
-              <p>Hi dfr,</p>
-              <p className="fw-bold m-0">
-                <span className="bg-secondary">
-                  Your temp e-mail address is ready
-                </span>
-              </p>
-              <p>
-                If you need help read the information below and do not hesitate
-                to contact us.
-              </p>
-              <p className="m-0">All the best,</p>
-              <p>DropMail</p>
+              <div>{incomingEmail[emailIndex]?.text}</div>
             </div>
           </div>
         </div>
