@@ -6,7 +6,7 @@ import { getEmail, getIncomingMail } from "../services/api";
 
 export default function Home() {
   const [email, setEmail] = useState("");
-  const [emailIndex, setEmailIndex] = useState<any>(0);
+  const [emailIndex, setEmailIndex] = useState<number>(0);
   const [incomingEmail, setIncomingEmail] = useState<any>([]);
 
   const getEmailAddress = async () => {
@@ -45,15 +45,6 @@ export default function Home() {
       <div className="grid-area-brand">
         <div className="bg-secondary p-4 w-25 rounded"></div>
       </div>
-      <button onClick={() => getIncomingEmail()} className="btn btn-primary">
-        Get Incoming Mail
-      </button>
-      <button
-        onClick={() => getEmailAddress()}
-        className="btn btn-secondary mx-2"
-      >
-        Get Email Address
-      </button>
       <div className="grid-area-email border rounded">
         <div className="grid-area-generated-email border-bottom">
           <div className="d-flex justify-content-center align-items-center flex-column">
@@ -83,7 +74,10 @@ export default function Home() {
                   </CircularProgressbarWithChildren>
                 </div>
               </div>
-              <button className="btn btn-transparent text-secondary d-flex align-items-center fw-semibold">
+              <button
+                onClick={() => getIncomingEmail()}
+                className="btn btn-transparent text-secondary d-flex align-items-center fw-semibold"
+              >
                 <IoReloadCircleOutline className="fs-3" /> Refresh
               </button>
             </div>
@@ -97,6 +91,7 @@ export default function Home() {
             {incomingEmail.map((item: any, index: number) => (
               <li
                 key={index}
+                onClick={() => setEmailIndex(index)}
                 className="list-group-item rounded-0 border-0 border-bottom px-1"
               >
                 <h5 className="fw-bold m-0">
@@ -122,7 +117,9 @@ export default function Home() {
           <div className="area-divisor bg-secondary border-bottom"></div>
 
           <div className="px-2 bg-secondary email-content">
-            <h4 className="fw-bold py-2 mb-0 mx-4">Welcome</h4>
+            <h4 className="fw-bold py-2 mb-0 mx-4">
+              {incomingEmail[emailIndex]?.headerFrom}
+            </h4>
             <div className="bg-white p-2 rounded border">
               <div>{incomingEmail[emailIndex]?.text}</div>
             </div>
